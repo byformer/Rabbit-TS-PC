@@ -2,11 +2,13 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+// name插件
 import vueSetupExtend from 'vite-plugin-vue-setup-extend'
 function pathResolve(dir: string): string {
   return resolve(process.cwd(), '.', dir)
 };
 export default defineConfig({
+  // 添加name插件
   plugins: [vue(),vueSetupExtend()],
   // 配置路径别名
   resolve: {

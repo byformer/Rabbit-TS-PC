@@ -5,6 +5,7 @@ import App from './App.vue'
 // 导入自己的公共样式
 import "@/assets/style/common.less"
 import router from '@/router'
+import {createPinia} from  'pinia'
+const pinia = createPinia()
 
-
-createApp(App).use(router).mount('#app')
+createApp(App).use(pinia).use(router).mount('#app')
