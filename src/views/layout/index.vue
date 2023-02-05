@@ -11,7 +11,8 @@ import AppFooter from './components/app-footer.vue'
     <AppHander></AppHander>
     <!-- 中间 -->
     <main class="app-body">
-
+        <!-- 给路由出口 -->
+         <RouterView></RouterView>
     </main>
     <!-- 底部 -->
     <AppFooter></AppFooter>

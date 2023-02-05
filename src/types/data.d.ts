@@ -11,5 +11,7 @@ export  interface categoryItem {
     id:string,
     name:string,
     picture:string,
-    children:categoryItem[]
+    open:boolean,
+    children:categoryItem[],
+    
 }
