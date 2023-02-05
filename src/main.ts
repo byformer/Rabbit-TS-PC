@@ -6,6 +6,15 @@ import App from './App.vue'
 import "@/assets/style/common.less"
 import router from '@/router'
 import {createPinia} from  'pinia'
-const pinia = createPinia()
+import Skeleton from'@/components/skeleton/index.vue'
+import Carousel from '@/components/carousel/index.vue'
 
-createApp(App).use(pinia).use(router).mount('#app')
+const pinia = createPinia()
+const app = createApp(App)
+// 注册全局组件
+app.component ('Skeleton',Skeleton)
+app.component('Carousel',Carousel)
+
+app.use(pinia)
+app.use(router)
+app.mount('#app')

@@ -22,3 +22,11 @@ export  interface categoryItem {
     goods:GoodsItem[]
     
 }
+
+// 轮播图类型
+export type BannerItem = {
+    hrefUrl: string
+    id: string
+    imgUrl: string
+    type: string
+  }

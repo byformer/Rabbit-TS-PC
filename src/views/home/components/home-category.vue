@@ -1,5 +1,6 @@
 <script lang="ts" setup name="HomeCategory">
 import useStore from '@/store';
+
 import { ref,computed } from 'vue';
 const { category } = useStore()
 
@@ -22,11 +23,24 @@ const goods = computed(()=>{
                  v-for="(item, index) in category.list" :key="index"
                  :class="{active:item.id === categoryId}">
                 <RouterLink to="/">{{ item.name }}</RouterLink>
-                <RouterLink v-for="sub in item.children?.slice(0, 2)"
-                            to="/" :key="sub.id">{{ sub.name }}
-                </RouterLink>
 
+               <template v-if="item.children">
+                <RouterLink v-for="sub in item.children?.slice(0, 2)"
+                            to="/" :key="sub.id">
+                            {{ sub.name }}
+                </RouterLink>
+               </template>
+
+               <template v-else>
+                <Skeleton style="margin-left: 5px;" bg="rgba(255,255,255,0.2)"
+                 :width="60" :height="30" animated fade>
+                </Skeleton>
+                <Skeleton style="margin-left: 5px;" bg="rgba(255,255,255,0.2)"
+                 :width="60" :height="30" animated fade>
+                </Skeleton>
+               </template>
             </li>
+
         </ul>
         <!-- 弹层 -->
         <div class="layer" v-if="goods">
