@@ -8,7 +8,9 @@ const { home } = useStore()
 <template>
   <div class="home-banner">
     <!-- 轮播图 -->
-    <Carousel :slider="home.bannerList"></Carousel>
+    <Carousel :slider="home.bannerList"
+     autoplay 
+    :duration="3000"></Carousel>
   </div>
 </template>
 
@@ -20,7 +22,7 @@ const { home } = useStore()
   left: 0;
   top: 0;
   z-index: 98;
-  background-color: pink;
+
   :deep(.carousel-btn.prev){
     left: 270px !important;
   }

@@ -1,16 +1,27 @@
 <script lang="ts" setup name="XtxCarousel">
 import { BannerItem } from '@/types/data'
-import { PropType, ref } from 'vue'
+import { PropType, ref, onMounted, onUnmounted } from 'vue'
 // 父传子
 const props = defineProps({
   slider: {
     type: Array as PropType<BannerItem[]>,
     required: true,
+  },
+  autopaly:{
+    type:Boolean,
+    default:false
+  },
+  duration:{
+    type:Number,
+    default:3000
   }
 })
 
-// defineProps<{
-//   silder:BannerItem[]
+// 新版语法
+// const props = defineProps<{
+//   slider: BannerItem[]
+//   autopaly?: boolean,
+//   duration?: number,
 // }>()
 // 控制下标
 const active = ref(0)
@@ -19,20 +30,47 @@ const onPrev = () => {
   active.value--
   // 如果active达到最小值 归下标最大值
   if (active.value < 0) {
+    
+    
     active.value = props.slider.length - 1
   }
 }
 const onNext = () => {
   active.value++
   // 如果active达到下标最大值 归下标0
-  if (active.value >= props.slider.length) {
+  if (active.value >=props.slider.length) {
     active.value = 0
   }
 }
+// 移入暂停、播放
+const stop = () => {
+  clearInterval(timer)
+}
+const paly = () => {
+  // 在模块环境中，定时器、延时器，编辑器会识别成 node 中的定时器和延时器
+  // 我们要的是浏览器端的，所以加window
+  clearInterval(timer)
+  timer = window.setInterval(() => {
+    onNext()
+  }, props.duration)
+}
+
+// 定时器控制轮播
+let timer: number = -1
+onMounted(() => {
+
+  paly()
+})
+
+onUnmounted(() => {
+  stop()
+})
+
+
 </script>
 
 <template>
-  <div class="xtx-carousel">
+  <div class="xtx-carousel" @mouseenter="stop" @mouseleave="paly">
     <!-- 轮播图 -->
     <ul class="carousel-body">
       <li v-for="(item, index) in slider" :key="item.id" class="carousel-item " :class="{ fade: active === index }">
@@ -50,7 +88,8 @@ const onNext = () => {
       <i class="iconfont icon-angle-right"></i></a>
     <!-- 小圆点 -->
     <div class="carousel-indicator">
-      <span v-for="(item, index) in slider" :key="item.id" :class="{ active: active === index }"></span>
+      <span v-for="(item, index) in slider" :key="item.id" :class="{ active: active === index }"
+        @click="active = index"></span>
 
     </div>
   </div>
