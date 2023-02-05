@@ -1,28 +1,34 @@
 <script lang="ts" setup name="AppHeaderSticky">
-import { onMounted, ref,onBeforeUnmount } from 'vue';
+import { onMounted, ref, onBeforeUnmount } from 'vue';
 import AppHeaderNav from './app-hander-nav.vue'
 
 // 监听滚动条的滚动，获取滚动的距离
 // 监听滚动属于dom事件
-const y = ref(0)
-const onScroll = () => {
-    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
-    y.value = scrollTop
-
+function useHMScrollY() {
+    const y = ref(0)
+    const onScroll = () => {
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+        y.value = scrollTop
+    }
+    onMounted(() => {
+        window.addEventListener('scroll', onScroll)
+    })
+    // 准备卸载，事件清一下 
+    onBeforeUnmount(() => {
+        window.addEventListener('scroll', onScroll)
+    })
+    return y
 }
-onMounted(() => {
-    window.addEventListener('scroll', onScroll)
-})
-// 准备卸载，事件清一下 
-// onBeforeUnmount(() => {
-//     window.removeEventListener('scroll',onScroll)
-// }),
+const y = useHMScrollY()
+
+
+
 </script>
 
 <template>
     <div class="app-header-sticky" :class="{ show: y >= 78 }">
         <!-- 如果容器没有吸顶出来，那么内容不需要显示 -->
-        <div class="container" v-if=" y >= 78">
+        <div class="container" v-if="y >= 78">
             <RouterLink class="logo" to="/" />
             <AppHeaderNav />
             <div class="right">

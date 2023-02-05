@@ -5,13 +5,20 @@ export interface ApiRes<T>{
     msg:string,
     result:T
 };
-
+ export interface GoodsItem{
+    desc: string
+    id: string
+    name: string
+    picture: string
+    price: string 
+ }
 // 单个类型
 export  interface categoryItem {
     id:string,
     name:string,
     picture:string,
-    open:boolean,
     children:categoryItem[],
+    open:boolean,
+    goods:GoodsItem[]
     
 }
