@@ -13,7 +13,8 @@ const router = createRouter({
                 { path: '/category/sub/:id', component: () => import('@/views/category/sub.vue') }
             ]
         },
-        { path: '/login', component: () => import('@/views/login/index.vue') }
+        { path: '/login', component: () => import('@/views/login/index.vue') },
+        {path:'/palyground',component:()=>import('@/views/palyground/index.vue')}
     ],
 })
 

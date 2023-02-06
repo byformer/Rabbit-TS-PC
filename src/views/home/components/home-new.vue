@@ -1,12 +1,19 @@
 <script lang="ts" setup>
 import HomePanel from './home-panel.vue'
 import useStore from '@/store';
+import DefaultImg from '@/assets/images/200.png';
+import {useLazyData} from '@/utils/hooks'
+
 const { home } = useStore()
-home.getNewList()
+// 组件懒加载
+const target = useLazyData(()=>{
+   home.getNewList()
+})
+
 </script>
 <template>
   <div class="home-new">
-    <HomePanel title="新鲜好物" subtitle="新鲜出炉 品质靠谱">
+    <HomePanel ref="target" title="新鲜好物" subtitle="新鲜出炉 品质靠谱">
       <template #right>
         <XtxMore path="/" />
       </template>
@@ -14,7 +21,7 @@ home.getNewList()
       <ul class="goods-list">
         <li v-for="item in home.newGoodList" :key="item.id">
           <RouterLink to="/">
-            <img :src="item.picture" alt="" />
+            <img v-lazy="item.picture || DefaultImg" alt="" />
             <p class="name ellipsis">{{ item.name }}</p>
             <p class="price">&yen;{{ item.price }}</p>
           </RouterLink>

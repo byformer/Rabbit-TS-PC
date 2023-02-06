@@ -21,8 +21,6 @@ export default defineStore('home',{
         },
          async getHotList(){
             const res = await request.get<ApiRes<HotGoods[]>>('/home/hot')
-            console.log(res);
-            
             this.hotGoodList = res.data.result
             
          }

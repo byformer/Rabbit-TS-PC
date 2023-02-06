@@ -3,6 +3,9 @@ import AppTopNav from './components/app-topnav.vue'
 import AppHander from './components/app-hander.vue'
 import AppFooter from './components/app-footer.vue'
 import AppHanderSkitky from './components/app-hander-skitky.vue';
+import useStore from '@/store';
+const {category} = useStore()
+category.getCateGoryList()
 </script>
 
 <template>

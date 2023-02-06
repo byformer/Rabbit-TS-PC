@@ -2,7 +2,7 @@
 import useStore from '@/store';
 
 const { category } = useStore()
-category.getCateGoryList()
+
 
 </script>
 <template>
