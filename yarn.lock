@@ -587,6 +587,7 @@ pinia@^2.0.30:
     vue-demi "*"
 
 postcss@^8.1.10, postcss@^8.4.21:
+
   version "8.4.21"
   resolved "https://registry.npmmirror.com/postcss/-/postcss-8.4.21.tgz"
   integrity sha512-tP7u/Sn/dVxK2NnruI4H9BG+x+Wxz6oeZ1cJ8P6G/PZY0IKk4k/63TDsQf2kQq3+qoJeLm2kIBUNlZe3zgb4Zg==
