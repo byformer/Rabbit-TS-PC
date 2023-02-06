@@ -1,6 +1,7 @@
 <script lang="ts" setup name="HomeBrand">
 import useStore from '@/store';
 import { useLazyData } from '@/utils/hooks';
+import { ref } from 'vue';
 import HomePanel from './home-panel.vue'
 
 const { home } = useStore()
@@ -8,17 +9,35 @@ const target = useLazyData(() => {
     home.getBrandList()
 })
 
+const index = ref(0)
+const prevClick = ()=>{
+    if(index.value === 0) return
+    index.value--
+}
+const nextClick = ()=>{
+    if(index.value === Math.ceil(home.brandList.length / 5 ) - 1) return
+    index.value++
+}
 </script>
 
 <template>
     <HomePanel ref="target" title="热门品牌" subtitle="国际经典 品质保证">
         <template v-slot:right>
-            <a href="javascript:;" class="iconfont icon-angle-left prev"></a>
-            <a href="javascript:;" class="iconfont icon-angle-right next"></a>
+            <a
+            :class="{disabled: index === 0}"
+             href="javascript:;"
+             class="iconfont icon-angle-left prev"
+               @click="prevClick"></a>
+            <a
+            :class="{disabled: index === Math.ceil(home.brandList.length / 5 ) - 1}"
+             href="javascript:;"
+             class="iconfont icon-angle-right next"
+              @click="nextClick"></a>
         </template>
         <div class="box" ref="box">
             <Transition name="fade">
-        <ul class="list" v-if="home.brandList.length > 0">
+        <ul class="list" v-if="home.brandList.length > 0"
+              :style="{transform: `translateX(${ -index *1240}px)`}">
           <li v-for="item in home.brandList" :key="item.id">
             <RouterLink to="/">
               <img :src="item.picture" alt="" />
