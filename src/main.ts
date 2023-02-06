@@ -8,13 +8,13 @@ import router from '@/router'
 import {createPinia} from  'pinia'
 import Skeleton from'@/components/skeleton/index.vue'
 import Carousel from '@/components/carousel/index.vue'
-
+import XtxMore from '@/components/more/index.vue'
 const pinia = createPinia()
 const app = createApp(App)
 // 注册全局组件
 app.component ('Skeleton',Skeleton)
 app.component('Carousel',Carousel)
-
+app.component('XtxMore',XtxMore)
 app.use(pinia)
 app.use(router)
 app.mount('#app')

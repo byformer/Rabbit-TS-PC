@@ -7,7 +7,8 @@ home.getHotList()
 <template>
   <HomePanel title="人气推荐" subtitle="人气爆款 不容错过">
     <ul ref="pannel" class="goods-list">
-      <li v-for="item in home.hotGoodList" :key="item.id">
+      <li v-for="item in home.hotGoodList"
+       :key="item.id">
         <RouterLink to="/">
           <img :src="item.picture" alt="" />
           <p class="name">{{ item.title }}</p>
