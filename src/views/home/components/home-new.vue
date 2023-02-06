@@ -2,12 +2,12 @@
 import HomePanel from './home-panel.vue'
 import useStore from '@/store';
 import DefaultImg from '@/assets/images/200.png';
-import {useLazyData} from '@/utils/hooks'
+import { useLazyData } from '@/utils/hooks'
 import HomeSkeleton from './home-skeleton.vue';
 const { home } = useStore()
 // 组件懒加载
-const target = useLazyData(()=>{
-   home.getNewList()
+const target = useLazyData(() => {
+  home.getNewList()
 })
 
 </script>
@@ -18,17 +18,19 @@ const target = useLazyData(()=>{
         <XtxMore path="/" />
       </template>
       <!-- 面板内容 -->
-      <ul  class="goods-list" v-if=" home.newGoodList.length > 0">
-        <li v-for="item in home.newGoodList" :key="item.id">
-          <RouterLink to="/">
-            <img v-lazy="item.picture || DefaultImg" alt="" />
-            <p class="name ellipsis">{{ item.name }}</p>
-            <p class="price">&yen;{{ item.price }}</p>
-          </RouterLink>
-        </li>
-      </ul>
+      <Transition name="fade ">
+        <ul class="goods-list" v-if="home.newGoodList.length > 0">
+          <li v-for="item in home.newGoodList" :key="item.id">
+            <RouterLink to="/">
+              <img v-lazy="item.picture || DefaultImg" alt="" />
+              <p class="name ellipsis">{{ item.name }}</p>
+              <p class="price">&yen;{{ item.price }}</p>
+            </RouterLink>
+          </li>
+        </ul>
 
-      <HomeSkeleton v-else></HomeSkeleton>
+        <HomeSkeleton v-else></HomeSkeleton>
+      </Transition>
     </HomePanel>
   </div>
 </template>
