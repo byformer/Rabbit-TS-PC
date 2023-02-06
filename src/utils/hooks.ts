@@ -8,6 +8,8 @@ export function useLazyData(apiFn:()=>void) {
             stop()
             apiFn()
         }
+    },{
+        threshold:0
     })
     return target
 }

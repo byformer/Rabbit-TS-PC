@@ -17,7 +17,7 @@ const app = createApp(App)
 app.component('Skeleton', Skeleton)
 app.component('Carousel', Carousel)
 app.component('XtxMore', XtxMore)
-
+// 自定义懒加载组件
 app.directive('lazy', {
     mounted(el: HTMLImageElement, { value }) {
       // 图片的懒加载逻辑

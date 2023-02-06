@@ -1,6 +1,6 @@
 import {defineStore} from 'pinia'
 import request from '@/utils/request'
-import { BannerItem,ApiRes,GoodItem,HotGoods,Brand } from '@/types/data'
+import { BannerItem,ApiRes,GoodItem,HotGoods,Brand,HomeProduct,Special } from '@/types/data'
 export default defineStore('home',{
     state(){
         return {
@@ -8,6 +8,8 @@ export default defineStore('home',{
             newGoodList:[] as GoodItem[],  // 新鲜好物
             hotGoodList:[] as HotGoods[],  // 人气推荐
             brandList: [] as Brand[], // 热门品牌
+            productList: [] as HomeProduct[], // 居家美食区域
+            specialList: [] as Special[], // 指定专题
         }
     },
     actions:{
@@ -31,6 +33,16 @@ export default defineStore('home',{
         async getBrandList(){
             const res = await request.get<ApiRes<Brand[]>>('/home/brand')
             this.brandList = res.data.result
-         }
+         },
+        //  居家美食区域
+        async getProductList() {
+            const res = await request.get<ApiRes<HomeProduct[]>>('/home/goods')
+            this.productList = res.data.result
+          },
+        //   指定专题
+        async getSpecialList() {
+            const res = await request.get<ApiRes<Special[]>>('/home/special')
+            this.specialList = res.data.result
+          },
     }
 })
