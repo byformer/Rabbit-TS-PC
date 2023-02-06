@@ -3,7 +3,7 @@ import HomePanel from './home-panel.vue'
 import useStore from '@/store';
 import DefaultImg from '@/assets/images/200.png';
 import {useLazyData} from '@/utils/hooks'
-
+import HomeSkeleton from './home-skeleton.vue';
 const { home } = useStore()
 // 组件懒加载
 const target = useLazyData(()=>{
@@ -18,7 +18,7 @@ const target = useLazyData(()=>{
         <XtxMore path="/" />
       </template>
       <!-- 面板内容 -->
-      <ul class="goods-list">
+      <ul  class="goods-list" v-if=" home.newGoodList.length > 0">
         <li v-for="item in home.newGoodList" :key="item.id">
           <RouterLink to="/">
             <img v-lazy="item.picture || DefaultImg" alt="" />
@@ -27,6 +27,8 @@ const target = useLazyData(()=>{
           </RouterLink>
         </li>
       </ul>
+
+      <HomeSkeleton v-else></HomeSkeleton>
     </HomePanel>
   </div>
 </template>
