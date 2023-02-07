@@ -11,12 +11,16 @@ import Carousel from '@/components/carousel/index.vue'
 import XtxMore from '@/components/more/index.vue'
 import defaultImg from '@/assets/images/200.png'
 import { useIntersectionObserver } from '@vueuse/core'
+import Bread from './components/bread/index.vue'
+import BreadItem from './components/bread/item.vue'
 const pinia = createPinia()
 const app = createApp(App)
 // 注册全局组件
 app.component('Skeleton', Skeleton)
 app.component('Carousel', Carousel)
 app.component('XtxMore', XtxMore)
+app.component('Bread', Bread)
+app.component('BreadItem', BreadItem)
 // 自定义懒加载组件
 app.directive('lazy', {
     mounted(el: HTMLImageElement, { value }) {

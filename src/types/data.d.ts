@@ -18,9 +18,10 @@ export interface categoryItem {
   name: string,
   picture: string,
   children: categoryItem[],
+  goods: GoodsItem[],
+  parentId:string,
+  parentName:string,
   open: boolean,
-  goods: GoodsItem[]
-
 }
 
 // 轮播图类型
@@ -100,5 +101,13 @@ export type Special = {
   collectNum: number
   viewNum: number
   replyNum: number
+}
+
+// 顶级分类类型
+export type TopCategory = {
+  id: string
+  name: string
+  picture: string
+  children: categoryItem[]
 }
 
