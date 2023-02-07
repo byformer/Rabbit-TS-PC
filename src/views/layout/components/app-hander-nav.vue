@@ -11,7 +11,7 @@ const { category } = useStore()
             <RouterLink to="/">首页</RouterLink>
         </li>
         <li v-for="(item, index) in category.list" :key="index" 
-            @mouseenter="category.show(item.id)"
+            @mousemove="category.show(item.id)"
             @mouseleave="category.hide(item.id)">
             <!-- 一级分类导航按钮 -->
             <RouterLink @click="category.hide(item.id)"
