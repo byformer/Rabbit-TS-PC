@@ -3,7 +3,11 @@ export type Spec = {
   name: string
   values: SpecValue[]
 }
-
+export type SpecValue ={
+  desc:string
+  name:string
+  picture:string
+}
 type GoodsDetail = {
   pictures: string[]
   properties: {

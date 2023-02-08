@@ -6,7 +6,7 @@ import { useRoute } from 'vue-router';
 import GoodsImage from './components/goods-image.vue';
 import GoodsSales from './components/goods-sales.vue'
 import GoodsName from './components/goods-name.vue'
-
+import GoodsSku from './components/goods-sku.vue'
 const { goods } = useStore()
 const { info } = storeToRefs(goods)
 const route = useRoute()
@@ -45,7 +45,10 @@ watchEffect(() => {
               <GoodsSales />
             </div>
             <div class="spec">
+              <!-- 商品名称 -->
               <GoodsName :goods="info" />
+              <!-- 商品规格 -->
+              <GoodsSku :goods="info" />
             </div>
           </div>
           <!-- 商品详情 -->
