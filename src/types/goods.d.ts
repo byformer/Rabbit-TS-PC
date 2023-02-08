@@ -7,6 +7,8 @@ export type SpecValue ={
   desc:string
   name:string
   picture:string
+  selected:boolean
+  
 }
 type GoodsDetail = {
   pictures: string[]

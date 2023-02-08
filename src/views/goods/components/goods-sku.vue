@@ -1,9 +1,20 @@
 <script setup lang="ts" name="GoodsSku">
-import {GoodsInfo} from '@/types/goods'
+import {GoodsInfo,SpecValue,Spec} from '@/types/goods'
 defineProps<{
     goods:GoodsInfo
 }>()
-
+const changeSelected = (spec:Spec,SpecValue:SpecValue)=>{
+    // 1. 如果选中了，二次点击要取消选中
+    // 2. 如果没选中，让他选中，并且排他
+    if(SpecValue.selected){
+        SpecValue.selected = false
+    }else{
+        // 排他，先干掉所有人，再复活自己
+        spec.values.forEach((v) => v.selected =false)
+        SpecValue.selected = true
+    }
+    
+}
 </script>
 <template>
   <div class="goods-sku">
@@ -13,11 +24,17 @@ defineProps<{
        <template v-for="sub in item.values" :key="sub.name">
         <img
         v-if="sub.picture"
-          class="selected"
+          :class="{selected:sub.selected}"
           :src="sub.picture"
           alt=""
+          @click="changeSelected(item,sub)"
         />
-        <span v-else>{{ sub.name }}</span>
+        <span v-else 
+        :class="{selected:sub.selected}"
+        @click="changeSelected(item,sub)"
+        >
+        {{ sub.name }}
+    </span>
        </template>
       
       </dd>
