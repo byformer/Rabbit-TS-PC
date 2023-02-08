@@ -4,12 +4,21 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 // name插件
 import vueSetupExtend from 'vite-plugin-vue-setup-extend'
+
+import Components from "unplugin-vue-components/vite";
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 function pathResolve(dir: string): string {
   return resolve(process.cwd(), '.', dir)
 };
 export default defineConfig({
   // 添加name插件
-  plugins: [vue(),vueSetupExtend()],
+  plugins: [vue(),vueSetupExtend(),
+    Components({
+      extensions: ['vue'],
+      include: [/\.vue$/, /\.vue\?vue/],
+      resolvers: ElementPlusResolver()
+    })
+  ],
   // 配置路径别名
   resolve: {
     alias: {

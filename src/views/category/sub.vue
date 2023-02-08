@@ -72,7 +72,7 @@ watchEffect(() => {
       </a>
     </div>
   </div>
-  <!-- 商品列表 -->
+  <!-- 商品列表 --> 
   <ul>
     <li v-for="goods in  category.subCategory.goods" :key="goods.id">
       <GoodsItem :goods="goods"  />
