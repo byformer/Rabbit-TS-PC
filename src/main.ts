@@ -13,14 +13,18 @@ import defaultImg from '@/assets/images/200.png'
 import { useIntersectionObserver } from '@vueuse/core'
 import Bread from './components/bread/index.vue'
 import BreadItem from './components/bread/item.vue'
+import City from './components/city/index.vue'
 const pinia = createPinia()
 const app = createApp(App)
 // 注册全局组件
 app.component('Skeleton', Skeleton)
+app.component('City',City)
 app.component('Carousel', Carousel)
 app.component('XtxMore', XtxMore)
 app.component('Bread', Bread)
 app.component('BreadItem', BreadItem)
+
+
 // 自定义懒加载组件
 app.directive('lazy', {
     mounted(el: HTMLImageElement, { value }) {
