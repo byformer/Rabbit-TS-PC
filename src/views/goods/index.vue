@@ -15,6 +15,10 @@ watchEffect(() => {
   const id = route.params.id as string
   // 必须id存在，且是商品才发请求
   if (id && route.fullPath === `/goods/${id}`) {
+    
+    
+    goods.resetGoodsInfo()
+
     goods.getGoodsInfo(id)
   }
 

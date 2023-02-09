@@ -1,3 +1,4 @@
+
 // 商品的规格类型
 export type Spec = {
   name: string
@@ -7,8 +8,8 @@ export type SpecValue ={
   desc:string
   name:string
   picture:string
-  selected:boolean
-  
+  selected:boolean // 控制选中还是没选中
+  disabled:boolean // 控制禁用
 }
 type GoodsDetail = {
   pictures: string[]
@@ -19,7 +20,7 @@ type GoodsDetail = {
 }
 
 // 商品的sku类型 （最小库存单元）
-export type Sku = {
+export type  Sku = {
   id: string
   inventory: number
   oldPrice: string
