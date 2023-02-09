@@ -36,7 +36,7 @@ const changeSku = (skuId: string) => {
   }
 }
 
-const count = ref(1)
+const count = ref(5)
 </script> 
 <template>
   <div class="xtx-goods-page">
