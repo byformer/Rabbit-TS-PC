@@ -1,6 +1,7 @@
 <script lang="ts" setup name="Login">
 import LoginHeader from './components/login-header.vue'
 import LoginFooter from './components/login-footer.vue'
+import LoginForm from './components/login-form.vue'
 import { ref } from 'vue';
 
 // account 账户登录 / qrcode 扫码登录
@@ -26,7 +27,9 @@ const activeName = ref < 'account' | 'qrcode'>('account')
             </nav>
 
             <!-- 表单 -->
-            <div v-if="activeName === 'account'" class="account-box">表单</div>
+            <div v-if="activeName === 'account'" class="account-box">
+                <LoginForm></LoginForm>
+            </div>
             <!-- 二维码 -->
             <div v-else class="qrcode-box">
                 <img src="@/assets/images/qrcode.jpg" alt="" />
