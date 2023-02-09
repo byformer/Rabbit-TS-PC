@@ -12,6 +12,7 @@ declare module '@vue/runtime-core' {
     City: typeof import('./src/components/city/index.vue')['default']
     Item: typeof import('./src/components/bread/item.vue')['default']
     More: typeof import('./src/components/more/index.vue')['default']
+    Numbox: typeof import('./src/components/numbox/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Skeleton: typeof import('./src/components/skeleton/index.vue')['default']

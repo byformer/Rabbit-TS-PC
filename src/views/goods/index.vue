@@ -1,13 +1,13 @@
 <script lang="ts" setup name="Goods">
 import useStore from '@/store';
 import { storeToRefs } from 'pinia';
-import { watchEffect } from 'vue';
+import { ref, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
 import GoodsImage from './components/goods-image.vue';
 import GoodsSales from './components/goods-sales.vue'
 import GoodsName from './components/goods-name.vue'
 import GoodsSku from './components/goods-sku.vue'
-import GoodsDetail from './components/goods-detail.vue'
+
 
 const { goods } = useStore()
 const { info } = storeToRefs(goods)
@@ -35,6 +35,8 @@ const changeSku = (skuId: string) => {
     info.value.oldPrice = sku.oldPrice // 更新老价格
   }
 }
+
+const count = ref(1)
 </script> 
 <template>
   <div class="xtx-goods-page">
@@ -62,9 +64,11 @@ const changeSku = (skuId: string) => {
             <div class="spec">
               <!-- 商品名称 -->
               <GoodsName :goods="info" />
-              <!-- 商品规格 -->
-              <GoodsSku :goods="info" 
+              <!-- 商品规格 sku组件-->
+              <GoodsSku :goods="info"  
               @changeSku="changeSku"/>
+              <!-- 数字框组件 -->
+              <Numbox v-model:modelValue="count" :min="2" :max="10" />
             </div>
           </div>
           <!-- 商品详情 -->

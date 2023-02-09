@@ -14,6 +14,7 @@ import { useIntersectionObserver } from '@vueuse/core'
 import Bread from './components/bread/index.vue'
 import BreadItem from './components/bread/item.vue'
 import City from './components/city/index.vue'
+import Numbox from './components/numbox/index.vue'
 const pinia = createPinia()
 const app = createApp(App)
 // 注册全局组件
@@ -23,7 +24,7 @@ app.component('Carousel', Carousel)
 app.component('XtxMore', XtxMore)
 app.component('Bread', Bread)
 app.component('BreadItem', BreadItem)
-
+app.component('Numbox',Numbox)
 
 // 自定义懒加载组件
 app.directive('lazy', {
