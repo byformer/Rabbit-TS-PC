@@ -7,6 +7,8 @@ import GoodsImage from './components/goods-image.vue';
 import GoodsSales from './components/goods-sales.vue'
 import GoodsName from './components/goods-name.vue'
 import GoodsSku from './components/goods-sku.vue'
+import GoodsDetail from './components/goods-detail.vue'
+
 const { goods } = useStore()
 const { info } = storeToRefs(goods)
 const route = useRoute()
@@ -24,6 +26,15 @@ watchEffect(() => {
 
 })
 
+const changeSku = (skuId: string) => {
+  // console.log(skuId)
+  const sku = info.value.skus.find((item) => item.id === skuId)
+  if (sku) {
+    info.value.inventory = sku.inventory // 更新库存
+    info.value.price = sku.price // 更新价格
+    info.value.oldPrice = sku.oldPrice // 更新老价格
+  }
+}
 </script> 
 <template>
   <div class="xtx-goods-page">
@@ -45,14 +56,15 @@ watchEffect(() => {
           <!-- 商品信息 -->
           <div class="goods-info">
             <div class="media">
-              <GoodsImage :images="info.mainPictures"></GoodsImage>
+              <GoodsImage :images="info.mainPictures" />
               <GoodsSales />
             </div>
             <div class="spec">
               <!-- 商品名称 -->
               <GoodsName :goods="info" />
               <!-- 商品规格 -->
-              <GoodsSku :goods="info" />
+              <GoodsSku :goods="info" 
+              @changeSku="changeSku"/>
             </div>
           </div>
           <!-- 商品详情 -->

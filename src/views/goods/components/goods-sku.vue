@@ -3,11 +3,17 @@ import { GoodsInfo, SpecValue, Spec } from '@/types/goods'
 import bwPowerset from '@/utils/bwPowerset'
 const props = defineProps<{
     goods: GoodsInfo
+    skuId?:string
 }>()
+const emit = defineEmits<{
+  (e: 'changeSku', skuId: string): void
+}>()
+// sku组件的基本使用
+// 1. 需要传入的商品对象 => 
 // 修改按钮的选中状态
 const changeSelected = (spec: Spec, SpecValue: SpecValue) => {
-   
-    if(SpecValue.disabled) return
+
+    if (SpecValue.disabled) return
     // 1. 如果选中了，二次点击要取消选中
     // 2. 如果没选中，让他选中，并且排他
     if (SpecValue.selected) {
@@ -19,9 +25,18 @@ const changeSelected = (spec: Spec, SpecValue: SpecValue) => {
     }
     // 一旦按钮被重新选择了，那么按钮状态也会随之更新
     updateStatus()
+    // (1) 判断, 是否所有可选规格, 都选择
+    const selectedArr = getSelectedSpec().filter((item) => item)
+    if (selectedArr.length === props.goods.specs.length) {
+        // (2) 说明全部选中, 将得到的数组, 转成字符串, 去pathMap中找对应skuId
+        const key = selectedArr.join('+') // '蓝色+10cm+中国'
+        const result = pathMap[key]
+        const skuId = result[0] // 这个skuId, 是result中的唯一值
+        emit('changeSku', skuId)
+    }
 }
 type PathMapObj = {
-  [key: string]: string[]
+    [key: string]: string[]
 }
 // 基于数据，得到路径子集
 const getPathMap = () => {
@@ -58,16 +73,16 @@ const getPathMap = () => {
 
 // 更新启用禁用状态
 const updateStatus = () => {
-    const selectArr =  getSelectedSpec()
+    const selectArr = getSelectedSpec()
     // 根据路径字典更新
-    props.goods.specs.forEach((spec,index) => {
+    props.goods.specs.forEach((spec, index) => {
         spec.values.forEach(specValue => {
             // 让当前这个按钮，specValue.name 和selectArr进行组合
             const tempArr = [...selectArr]
             tempArr[index] = specValue.name
 
             const key = tempArr.filter(item => item).join('+')
-           if (key in pathMap) {
+            if (key in pathMap) {
                 // 存在，说明有库存，不禁用
                 specValue.disabled = false
             } else {
@@ -79,25 +94,44 @@ const updateStatus = () => {
 }
 
 // 获取当前的选中状态
-const getSelectedSpec =()=>{
+const getSelectedSpec = () => {
     // 根据现有所以的值，根据下标，进行遍历，将选中的值，按照下标存入数组 
-    const arr = ['','','']
-    props.goods.specs.forEach((spec,index) =>{
+    const arr = ['', '', '']
+    props.goods.specs.forEach((spec, index) => {
         // spec.values.forEach(specValue =>{
         //     console.log(specValue.selected);
-            
+
         // })
-      const tempObj = spec.values.find(specValue => specValue.selected)
-      arr[index] = tempObj ? tempObj.name : ''
+        const tempObj = spec.values.find(specValue => specValue.selected)
+        arr[index] = tempObj ? tempObj.name : ''
     })
     return arr
 }
+// 默认根据父传子
+const initSelectedSpec = () => {
+    if (!props.skuId) return
+    const sku = props.goods.skus.find((item) => item.id === props.skuId)
+
+    if (!sku) return
+    // 基于sku.specs, 让按钮设置成选中状态
+    // 三排按钮, 一排一排的来
+    props.goods.specs.forEach((spec, index) => {
+        // find, 每一排其实, 只会有一个被选中
+        const text = sku.specs[index].valueName
+        const specValue = spec.values.find((item) => item.name === text)
+        specValue!.selected = true
+    })
+}
+
+
+
 const pathMap = getPathMap()
-
-
+// 2. 先按照skuId进行初始化, 将选中状态设置好
+initSelectedSpec()
 // 更新禁用状态
 updateStatus()
 
+console.log(pathMap)
 </script>
 <template>
     <div class="goods-sku">
@@ -105,13 +139,14 @@ updateStatus()
             <dt>{{ item.name }}</dt>
             <dd>
                 <template v-for="sub in item.values" :key="sub.name">
-                    <img v-if="sub.picture" 
-                    :class="{ selected: sub.selected, 
-                        disabled: sub.disabled }" :src="sub.picture"
-                        alt="" @click="changeSelected(item, sub)" />
-                    <span v-else :class="{ selected: 
-                        sub.selected, disabled: sub.disabled }"
-                        @click="changeSelected(item, sub)">
+                    <img v-if="sub.picture" :class="{
+                        selected: sub.selected,
+                        disabled: sub.disabled
+                    }" :src="sub.picture" alt="" @click="changeSelected(item, sub)" />
+                    <span v-else :class="{
+                        selected:
+                            sub.selected, disabled: sub.disabled
+                    }" @click="changeSelected(item, sub)">
                         {{ sub.name }}
                     </span>
                 </template>
