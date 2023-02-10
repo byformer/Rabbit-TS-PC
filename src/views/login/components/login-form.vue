@@ -93,7 +93,18 @@ const send = async ()=>{
     mobileRef.value?.focus()
     return
   }
- 
+  try {
+   await user.sendMobileCode(mobile.value)
+   FnMessage({
+    type:'success',
+    text:'获取验证码成功'
+   })
+  } catch (error) {
+    FnMessage({
+      type:'error',
+      text:'获取验证码失败'
+    })
+  }
 }
 </script>
 <template>

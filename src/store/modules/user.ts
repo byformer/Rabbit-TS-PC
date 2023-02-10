@@ -19,7 +19,14 @@ export default defineStore('user', {
             })
             console.log(res);
             this.profile = res.data.result
-        }
+        },
         // 用户名验证码登录
+        async sendMobileCode(mobile:string){
+            await request.get('/login/code',{
+                params:{
+                    mobile
+                }
+            }) 
+        }
     }
 })
