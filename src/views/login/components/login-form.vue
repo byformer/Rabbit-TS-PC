@@ -1,7 +1,15 @@
 <script lang="ts" setup name="LoginForm">
+import FnMessage from '@/components/message/';
 import { ref } from 'vue'
 const type = ref<'account' | 'mobile'>('account')
 const isAgree = ref(false)
+
+const login = ()=>{
+  FnMessage({
+    type:'success',
+    text:'登录成功',
+  })
+}
 </script>
 <template>
   <div class="account-box">
@@ -53,7 +61,7 @@ const isAgree = ref(false)
           <a href="javascript:;">《服务条款》</a>
         </div>
       </div>
-      <a href="javascript:;" class="btn">登录</a>
+      <a href="javascript:;" class="btn" @click="login">登录</a>
     </div>
     <div class="action">
       <img src="https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_7.png" alt="" />

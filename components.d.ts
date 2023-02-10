@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     Checkbox: typeof import('./src/components/checkbox/index.vue')['default']
     City: typeof import('./src/components/city/index.vue')['default']
     Item: typeof import('./src/components/bread/item.vue')['default']
+    Message: typeof import('./src/components/message/message.vue')['default']
     More: typeof import('./src/components/more/index.vue')['default']
     Numbox: typeof import('./src/components/numbox/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
