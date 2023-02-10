@@ -3,6 +3,7 @@ import FnMessage from '@/components/message/';
 import useStore from '@/store';
 import { ref } from 'vue'
 import { useRouter } from 'vue-router';
+import { useField, useForm } from 'vee-validate'
 const type = ref<'account' | 'mobile'>('account')
 const { user } = useStore()
 const router = useRouter()
@@ -12,31 +13,55 @@ const form = ref({
   isAgree: false,
 })
 
+// 添加表单验证
+const { validate } = useForm({
+  validationSchema: {
+    account(value: string) {
+      // value是将来使用该规则的表单元素的值
+      // 1. 必填
+      // 2. 6-20个字符，需要以字母开头
+      // 如何反馈校验成功还是失败，返回true才是成功，其他情况失败，返回失败原因。
+      if (!value) return '请输入用户名'
+      if (!/^[a-zA-Z]\w{5,19}$/.test(value)) return '字母开头且6-20个字符'
+      return true
+    },
+    password(value: string) {
+      if (!value) return '请输入密码'
+      if (!/^\w{6,12}$/.test(value)) return '密码必须是6-12位字符'
+      return true
+    },
+    isAgree(value: boolean) {
+      if (!value) return '请同意许可'
+      return true
+    },
+    mobile(value:string){
+      if(!value) return '请输入手机号'
+      if(!/^1[3-9]\d{9}$/.test(value) ) return '手机号输入有误' 
+      return true 
+    },
+    code(value:string){ 
+      if(!value) return '请输入验证码'
+      if(!/^\d{6}$/.test(value)) return '验证码输入有误'
+      return true
+    }
+  }
+})
+
+const { value: account, errorMessage: accountError } = useField<string>('account')
+const { value: password, errorMessage: passwordError } = useField<string>('password')
+const { value: isAgree, errorMessage: isAgreeError } = useField<boolean>('isAgree')
+const { value: mobile, errorMessage: mobileError } = useField<string>('mobile')
+const { value: code, errorMessage: codeError } = useField<string>('code')
+
 const login = async () => {
-  if (form.value.account === '') {
-    FnMessage(
-      { type: 'error',
-       text: '用户名或手机号不能为空' 
-      })
-    return
-  }
-  if (form.value.password === '') {
-    FnMessage(
-      { type: 'error',
-       text: '密码不能为空' 
-      })
-    return
-  }
-  if (!form.value.isAgree) {
-    FnMessage(
-      { 
-        type: 'error',
-       text: '请同意许可' 
-    })
-    return
-  }
+  // 登录前的校验
+  const res = await validate()
+  // 没有校验通过则返回
+  if(!res.valid) return
+  console.log(res);
+  
   try {
-    await user.login(form.value.account, form.value.password)
+    await user.login(account.value, password.value)
     FnMessage({
       type: 'success',
       text: '登录成功',
@@ -66,41 +91,57 @@ const login = async () => {
         <div class="form-item">
           <div class="input">
             <i class="iconfont icon-user"></i>
-            <input v-model="form.account" type="text" placeholder="请输入用户名或手机号" />
+            <input v-model="account" type="text" placeholder="请输入用户名" />
           </div>
-          <!-- <div class="error"><i class="iconfont icon-warning" />请输入手机号</div> -->
+          <div class="error" v-if="accountError">
+            <i class="iconfont icon-warning" />{{ accountError }}
+          </div>
         </div>
         <div class="form-item">
           <div class="input">
             <i class="iconfont icon-lock"></i>
-            <input v-model="form.password" type="password" placeholder="请输入密码" />
+            <input v-model="password" type="password" placeholder="请输入密码" />
+          </div>
+          <div class="error" v-if="passwordError">
+            <i class="iconfont icon-warning" />{{ passwordError }}
           </div>
         </div>
+
       </template>
       <template v-else>
         <div class="form-item">
           <div class="input">
             <i class="iconfont icon-user"></i>
-            <input type="text" placeholder="请输入手机号" />
+            <input v-model="mobile" type="text" placeholder="请输入手机号" />
+          </div>
+          <div class="error" v-if="mobileError">
+            <i class="iconfont icon-warning" />{{ mobileError }}
           </div>
         </div>
         <div class="form-item">
           <div class="input">
             <i class="iconfont icon-code"></i>
-            <input type="password" placeholder="请输入验证码" />
+            <input v-model="code" type="text" placeholder="请输入验证码" />
             <span class="code">发送验证码</span>
+          </div>
+          <div class="error" v-if="codeError">
+            <i class="iconfont icon-warning" />{{ codeError }}
           </div>
         </div>
       </template>
       <div class="form-item">
         <div class="agree">
-          <CheckBox v-model="form.isAgree">我已同意</CheckBox>
+          <CheckBox v-model="isAgree">我已同意</CheckBox>
 
           <a href="javascript:;">《隐私条款》</a>
           <span>和</span>
           <a href="javascript:;">《服务条款》</a>
         </div>
+        <div class="error" v-if="isAgreeError">
+          <i class="iconfont icon-warning" />{{ isAgreeError }}
+        </div>
       </div>
+
       <a href="javascript:;" class="btn" @click="login">登录</a>
     </div>
     <div class="action">
