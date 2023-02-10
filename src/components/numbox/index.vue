@@ -1,4 +1,8 @@
 <script lang="ts" setup name="XtxNumbox">
+import { getCurrentInstance,ComponentInternalInstance } from 'vue';
+
+
+
 const props =  defineProps({
   modelValue:{
     type:Number,
@@ -14,6 +18,7 @@ const props =  defineProps({
   }
 })
 
+const { proxy} = getCurrentInstance() as ComponentInternalInstance
 const emit =defineEmits<{
   (e:'update:modelValue',value: number):void
 }>()
@@ -26,13 +31,26 @@ const sub = ()=>{
   if(props.modelValue <= props.min) return
   emit('update:modelValue',props.modelValue - 1)
 }
+
+const handleChange = (e:Event)=>{
+  // 通过类型断言，让ts知道目前的元素类型
+  
+    const element = e.target as HTMLInputElement
+    let value = +element.value
+    if(isNaN(value)) value = 1
+    if(value >= props.max) value = props.max
+    if(value  <= props.min) value = props.min
+  
+    emit('update:modelValue',value)
+    proxy!.$forceUpdate()
+}
 </script>
 <template>
   <div class="xtx-numbox">
     <div class="label">数量</div>
     <div class="numbox">
       <a href="javascript:;" @click="sub">-</a>
-      <input type="text" readonly :value="modelValue" />
+      <input type="text"  :value="modelValue" @change="handleChange" />
       <a href="javascript:;" @click="add">+</a>
     </div>
   </div>

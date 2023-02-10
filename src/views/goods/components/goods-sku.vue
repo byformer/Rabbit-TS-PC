@@ -131,7 +131,7 @@ initSelectedSpec()
 // 更新禁用状态
 updateStatus()
 
-console.log(pathMap)
+
 </script>
 <template>
     <div class="goods-sku">
