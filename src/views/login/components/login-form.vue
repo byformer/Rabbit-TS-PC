@@ -15,6 +15,14 @@ const form = ref({
 
 // 添加表单验证
 const { validate,resetForm } = useForm({
+  // 设置初始值
+  initialValues:{
+    mobile:'13012345678',
+    code:'123456',
+    account:'cdshi0004',
+    password:'123456',
+    isAgree:true
+  },
   validationSchema: {
     account(value: string) {
       // value是将来使用该规则的表单元素的值
@@ -58,11 +66,17 @@ const login = async () => {
   // 登录前的校验
   const res = await validate()
   // 没有校验通过则返回
-  if(!res.valid) return
-  console.log(res);
-  
- 
+  if(type.value === 'account'){
+    // 账号登录 如果账号或密码或同意许可，任何一个，有效验错误，就return
+    if(res.errors.account || res.errors.password || res.errors.isAgree) return
     await user.login(account.value, password.value)
+  }else{
+    // 手机号登录
+    if(res.errors.mobile || res.errors.code || res.errors.isAgree) return
+    await user.mobileLogin(mobile.value, code.value)
+  }
+ 
+    
 
     FnMessage({
       type: 'success',
@@ -86,7 +100,7 @@ const mobileRef = ref<HTMLInputElement | null>(null)
 const send = async ()=>{
   if(time.value >0) return
   // 手机号通过效验发送验证码，效验结果为true，才发送验证码
-/*   const res = await validateMobile()
+  const res = await validateMobile()
   if(!res.valid){
     mobileRef.value?.focus()
     return
@@ -96,7 +110,7 @@ const send = async ()=>{
    FnMessage({
     type:'success',
     text:'获取验证码成功'
-   }) */
+   })
    time.value = 5
    timeId =window.setInterval(()=>{
     time.value--

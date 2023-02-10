@@ -10,7 +10,9 @@ import useStore from '@/store';
             <ul>
                 <template v-if="user.profile.token">
                     <li>
-                    <a href="javascript:;"><i class="iconfont icon-user"></i>{{ user.profile.nickname }}</a>
+                    <a href="javascript:;"><i class="iconfont icon-user"></i>
+                        {{ user.profile.nickname || user.profile.account }}
+                    </a>
                 </li>
                 <li><a href="javascript:;">退出登录</a></li>
                 </template>

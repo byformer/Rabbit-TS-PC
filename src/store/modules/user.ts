@@ -27,6 +27,15 @@ export default defineStore('user', {
                     mobile
                 }
             }) 
-        }
+        },
+        async mobileLogin(mobile: string, code: string) {
+            const res = await request.post<ApiRes<Profile>>('/login/code', {
+              mobile,
+              code
+            })
+            // 1. 保存用户信息到 state 中
+            this.profile = res.data.result
+           
+          },
     }
 })
