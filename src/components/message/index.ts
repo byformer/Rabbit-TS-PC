@@ -14,13 +14,16 @@ const divContainer = document.createElement('div')
 divContainer.setAttribute('class','xtx-message-container')
 document.body.appendChild(divContainer)
 
+let timer:number = -1
+
 export default function FnMessage({type,text,duration = 2000}:Props){
     // 1.创建虚拟dom
       const vNode = h(Message,{type,text})
     //  2.动态render
     render(vNode,divContainer)
     // 3. 开一个延时器，到时间让他隐藏
-    setTimeout(()=>{
+    clearTimeout(timer)
+  timer = window.setTimeout(()=>{
         // 删除虚拟dom
         render(null,divContainer)
        

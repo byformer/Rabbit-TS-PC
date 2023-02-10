@@ -1,4 +1,5 @@
-import axios from 'axios'
+import FnMessage from '@/components/message'
+import axios, { AxiosError } from 'axios'
 
 // 备用接口地址: http://pcapi-xiaotuxian-front-devtest.itheima.net/
 // http://pcapi-xiaotuxian-front.itheima.net/
@@ -26,7 +27,20 @@ instance.interceptors.response.use(
   function (response) {
     return response
   },
-  function (error:string) {
+  function (error:AxiosError<{message: string,code:string}>) {
+    // 特殊情况，响应没回来
+    if(!error.response) {
+      FnMessage({
+        type:'error',
+        text:'网络异常或服务器繁忙，请稍后重试'
+      })
+    }else{
+      // 有响应，正常给提示
+      FnMessage({
+        type:'error',
+        text:error.response.data.message
+      })
+    }
     // 对响应错误做点什么
     return Promise.reject(error)
   }

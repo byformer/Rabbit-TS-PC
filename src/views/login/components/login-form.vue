@@ -61,19 +61,15 @@ const login = async () => {
   if(!res.valid) return
   console.log(res);
   
-  try {
+ 
     await user.login(account.value, password.value)
+
     FnMessage({
       type: 'success',
       text: '登录成功',
     })
     router.push('/')
-  } catch (error) {
-    FnMessage({
-      type: 'error',
-      text: '用户名或密码错误'
-    })
-  }
+
 
 }
 
@@ -85,26 +81,30 @@ watch(type,()=>{
 
 // 处理发送验证码
 const mobileRef = ref<HTMLInputElement | null>(null)
-
+   const time = ref(0) // 倒计时的秒数
+   let timeId = -1
 const send = async ()=>{
+  if(time.value >0) return
   // 手机号通过效验发送验证码，效验结果为true，才发送验证码
-  const res = await validateMobile()
+/*   const res = await validateMobile()
   if(!res.valid){
     mobileRef.value?.focus()
     return
   }
-  try {
+
    await user.sendMobileCode(mobile.value)
    FnMessage({
     type:'success',
     text:'获取验证码成功'
-   })
-  } catch (error) {
-    FnMessage({
-      type:'error',
-      text:'获取验证码失败'
-    })
-  }
+   }) */
+   time.value = 5
+   timeId =window.setInterval(()=>{
+    time.value--
+    if(time.value<= 0){
+      clearInterval(timeId)
+    }
+   },1000)
+
 }
 </script>
 <template>
@@ -153,7 +153,9 @@ const send = async ()=>{
           <div class="input">
             <i class="iconfont icon-code"></i>
             <input v-model="code" type="text" placeholder="请输入验证码" />
-            <span class="code" @click="send">发送验证码</span>
+            <span class="code" @click="send">
+            {{ time === 0 ? '发送验证码' : `${time}s后发送` }}
+            </span>
           </div>
           <div class="error" v-if="codeError">
             <i class="iconfont icon-warning" />{{ codeError }}
