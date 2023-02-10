@@ -529,7 +529,7 @@
     "@vue/compiler-dom" "3.2.47"
     "@vue/shared" "3.2.47"
 
-"@vue/devtools-api@^6.4.5":
+"@vue/devtools-api@^6.1.4", "@vue/devtools-api@^6.4.5":
   version "6.5.0"
   resolved "https://registry.npmmirror.com/@vue/devtools-api/-/devtools-api-6.5.0.tgz#98b99425edee70b4c992692628fa1ea2c1e57d07"
   integrity sha512-o9KfBeaBmCKl10usN4crU53fYtC1r7jJwdGKjPT24t348rHxgfpZ0xL3Xm/gLUYnc0oTp8LAmrxOeLyu6tbk2Q==
@@ -1744,6 +1744,13 @@ util@^0.10.3:
   integrity sha512-0Pm9hTQ3se5ll1XihRic3FDIku70C+iHUdT/W926rSgHV5QgXsYbKZN8MSC3tJtSkhuROzvsQjAaFENRXr+19A==
   dependencies:
     inherits "2.0.3"
+
+vee-validate@^4.7.4:
+  version "4.7.4"
+  resolved "https://registry.npmmirror.com/vee-validate/-/vee-validate-4.7.4.tgz#4f7c6833eb663d465191e1583bf6f552b16b1a7b"
+  integrity sha512-pfhKluYimYvSQIiFoIY29NAgl0j24DqPsodlCny/NlOrYbougdjbL1C9yYqmba4Ka3YUY6vOZ0GE2wcwMsKQ5A==
+  dependencies:
+    "@vue/devtools-api" "^6.1.4"
 
 vite-plugin-vue-setup-extend@^0.4.0:
   version "0.4.0"

@@ -1,14 +1,54 @@
 <script lang="ts" setup name="LoginForm">
 import FnMessage from '@/components/message/';
+import useStore from '@/store';
 import { ref } from 'vue'
+import { useRouter } from 'vue-router';
 const type = ref<'account' | 'mobile'>('account')
-const isAgree = ref(false)
+const { user } = useStore()
+const router = useRouter()
+const form = ref({
+  account: '',
+  password: '',
+  isAgree: false,
+})
 
-const login = ()=>{
-  FnMessage({
-    type:'success',
-    text:'登录成功',
-  })
+const login = async () => {
+  if (form.value.account === '') {
+    FnMessage(
+      { type: 'error',
+       text: '用户名或手机号不能为空' 
+      })
+    return
+  }
+  if (form.value.password === '') {
+    FnMessage(
+      { type: 'error',
+       text: '密码不能为空' 
+      })
+    return
+  }
+  if (!form.value.isAgree) {
+    FnMessage(
+      { 
+        type: 'error',
+       text: '请同意许可' 
+    })
+    return
+  }
+  try {
+    await user.login(form.value.account, form.value.password)
+    FnMessage({
+      type: 'success',
+      text: '登录成功',
+    })
+    router.push('/')
+  } catch (error) {
+    FnMessage({
+      type: 'error',
+      text: '用户名或密码错误'
+    })
+  }
+
 }
 </script>
 <template>
@@ -22,18 +62,18 @@ const login = ()=>{
       </a>
     </div>
     <div class="form">
-      <template v-if="type==='account'">
+      <template v-if="type === 'account'">
         <div class="form-item">
           <div class="input">
             <i class="iconfont icon-user"></i>
-            <input type="text" placeholder="请输入用户名或手机号" />
+            <input v-model="form.account" type="text" placeholder="请输入用户名或手机号" />
           </div>
           <!-- <div class="error"><i class="iconfont icon-warning" />请输入手机号</div> -->
         </div>
         <div class="form-item">
           <div class="input">
             <i class="iconfont icon-lock"></i>
-            <input type="password" placeholder="请输入密码" />
+            <input v-model="form.password" type="password" placeholder="请输入密码" />
           </div>
         </div>
       </template>
@@ -54,8 +94,8 @@ const login = ()=>{
       </template>
       <div class="form-item">
         <div class="agree">
-         <CheckBox v-model="isAgree">我已同意</CheckBox>
-         
+          <CheckBox v-model="form.isAgree">我已同意</CheckBox>
+
           <a href="javascript:;">《隐私条款》</a>
           <span>和</span>
           <a href="javascript:;">《服务条款》</a>
