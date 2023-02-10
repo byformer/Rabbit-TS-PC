@@ -2,7 +2,7 @@ import request from '@/utils/request'
 import { defineStore } from 'pinia'
 import { Profile } from '@/types/user'
 import { ApiRes } from '@/types/data'
-import { getProfile, setProfile } from '@/utils/storage'
+import { getProfile, removeProfile, setProfile } from '@/utils/storage'
 
 export default defineStore('user', {
     state() {
@@ -43,5 +43,10 @@ export default defineStore('user', {
             // 往本地存
             setProfile(res.data.result)
           },
+    //   退出
+     logout(){
+        this.profile = {} as Profile
+            removeProfile()
+     }
     }
 })

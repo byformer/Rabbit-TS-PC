@@ -1,7 +1,18 @@
 <script lang="ts" setup name="AppTopnav">
+import FnMessage from '@/components/message';
+import router from '@/router';
 import useStore from '@/store';
 
  const { user } = useStore()
+
+ const logoutFn = ()=>{
+    user.logout()
+    router.push('/login')
+    FnMessage({
+        type:'success',
+        text:'退出登录成功'
+    })
+ }
 </script>
 
 <template>
@@ -14,7 +25,7 @@ import useStore from '@/store';
                         {{ user.profile.nickname || user.profile.account }}
                     </a>
                 </li>
-                <li><a href="javascript:;">退出登录</a></li>
+                <li ><a @click="logoutFn" href="javascript:;">退出登录</a></li>
                 </template>
                <template v-else>
                 <li>
