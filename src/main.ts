@@ -16,7 +16,7 @@ import BreadItem from './components/bread/item.vue'
 import City from './components/city/index.vue'
 import Numbox from './components/numbox/index.vue'
 import Button from './components/button/index.vue'
-
+import CheckBox from './components/checkbox/index.vue'
 const pinia = createPinia()
 const app = createApp(App)
 // 注册全局组件
@@ -28,6 +28,7 @@ app.component('Bread', Bread)
 app.component('BreadItem', BreadItem)
 app.component('Numbox',Numbox)
 app.component('Button',Button)
+app.component('CheckBox',CheckBox)
 
 // 自定义懒加载组件
 app.directive('lazy', {
