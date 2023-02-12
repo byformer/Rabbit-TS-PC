@@ -4,6 +4,7 @@ import useStore from '@/store';
 import { ref,watch } from 'vue'
 import { useRouter } from 'vue-router';
 import { useField, useForm } from 'vee-validate'
+import { accountRule, codeRule, isAgreeRule, mobileRule, passwordRule } from '@/utils/validate';
 const type = ref<'account' | 'mobile'>('account')
 const { user } = useStore()
 const router = useRouter()
@@ -24,34 +25,11 @@ const { validate,resetForm } = useForm({
     isAgree:true
   },
   validationSchema: {
-    account(value: string) {
-      // value是将来使用该规则的表单元素的值
-      // 1. 必填
-      // 2. 6-20个字符，需要以字母开头
-      // 如何反馈校验成功还是失败，返回true才是成功，其他情况失败，返回失败原因。
-      if (!value) return '请输入用户名'
-      if (!/^[a-zA-Z]\w{5,19}$/.test(value)) return '字母开头且6-20个字符'
-      return true
-    },
-    password(value: string) {
-      if (!value) return '请输入密码'
-      if (!/^\w{6,12}$/.test(value)) return '密码必须是6-12位字符'
-      return true
-    },
-    isAgree(value: boolean) {
-      if (!value) return '请同意许可'
-      return true
-    },
-    mobile(value:string){
-      if(!value) return '请输入手机号'
-      if(!/^1[3-9]\d{9}$/.test(value) ) return '手机号输入有误' 
-      return true 
-    },
-    code(value:string){ 
-      if(!value) return '请输入验证码'
-      if(!/^\d{6}$/.test(value)) return '验证码输入有误'
-      return true
-    }
+    account:accountRule,
+    password:passwordRule,
+    isAgree:isAgreeRule,
+    mobile:mobileRule,
+    code:codeRule
   }
 })
 
@@ -111,7 +89,7 @@ const send = async ()=>{
     type:'success',
     text:'获取验证码成功'
    })
-   time.value = 5
+   time.value = 60
    timeId =window.setInterval(()=>{
     time.value--
     if(time.value<= 0){
