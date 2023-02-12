@@ -26,9 +26,10 @@ export default defineConfig({
     }
   },
   server: {
-    host: '127.0.0.1', //ip地址
+    host: 'www.corho.com', //ip地址
     port: 8080, //端口号
-    open: true //启动后是否自动打开浏览器
+    open: true, //启动后是否自动打开浏览器
+    cors:true, // 允许开发时使用 ajax跨域
   },
   // 配置css的全局注入
    
