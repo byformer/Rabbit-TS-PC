@@ -9,7 +9,8 @@ import GoodsName from './components/goods-name.vue'
 import GoodsSku from './components/goods-sku.vue'
 import GoodsDetail from './components/goods-detail.vue';
 import GoodsHot from './components/goods-hot.vue'
-const { goods } = useStore()
+import FnMessage from '@/components/message';
+const { goods,cart } = useStore()
 const { info } = storeToRefs(goods)
 const route = useRoute()
 
@@ -25,9 +26,10 @@ watchEffect(() => {
   }
 
 })
-
+const currentSkuId = ref('')
 const changeSku = (skuId: string) => {
   // console.log(skuId)
+  currentSkuId.value = skuId
   const sku = info.value.skus.find((item) => item.id === skuId)
   if (sku) {
     info.value.inventory = sku.inventory // 更新库存
@@ -37,6 +39,27 @@ const changeSku = (skuId: string) => {
 }
 
 const count = ref(5)
+
+const addCart = async () => {
+  // 判断 是否选中了某个sku
+  if(!currentSkuId.value){
+    FnMessage({
+      type:'warning',
+      text:'请选择完整的规格信息'
+    })
+    return
+  }
+   await cart.addCart({
+      skuId:currentSkuId.value,
+      count:count.value
+    })
+   FnMessage({
+    type:'success',
+    text:'加入购物车成功'
+   })
+
+
+}
 </script> 
 <template>
   <div class="xtx-goods-page">
@@ -68,7 +91,7 @@ const count = ref(5)
               <GoodsSku :goods="info" @changeSku="changeSku" />
               <!-- 数字框组件 -->
               <Numbox v-model:modelValue="count" :min="2" :max="10" />
-              <Button type="primary" style="margin-top:20px">加入购物车</Button>
+              <Button type="primary" style="margin-top:20px" @click="addCart">加入购物车</Button>
 
             </div>
           </div>
@@ -82,11 +105,11 @@ const count = ref(5)
               </div>
             </div>
             <!-- 24热榜+专题推荐 -->
-              <div class="goods-aside">
-                <GoodsHot :type="1" />
-                <GoodsHot :type="2" />
-                <GoodsHot :type="3" />
-           
+            <div class="goods-aside">
+              <GoodsHot :type="1" />
+              <GoodsHot :type="2" />
+              <GoodsHot :type="3" />
+
             </div>
           </div>
         </div>

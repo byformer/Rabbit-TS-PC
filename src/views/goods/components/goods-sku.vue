@@ -11,6 +11,7 @@ const emit = defineEmits<{
 // sku组件的基本使用
 // 1. 需要传入的商品对象 => 
 // 修改按钮的选中状态
+
 const changeSelected = (spec: Spec, SpecValue: SpecValue) => {
 
     if (SpecValue.disabled) return
@@ -33,6 +34,8 @@ const changeSelected = (spec: Spec, SpecValue: SpecValue) => {
         const result = pathMap[key]
         const skuId = result[0] // 这个skuId, 是result中的唯一值
         emit('changeSku', skuId)
+    }else{
+        emit('changeSku','')
     }
 }
 type PathMapObj = {
