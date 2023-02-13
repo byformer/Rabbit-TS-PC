@@ -1,5 +1,6 @@
 <script lang="ts" setup name="AppHeader">
 import HanderNav from './app-hander-nav.vue'
+import AppHeaderCart from './app-hander-cart.vue'
 </script>
 
 <template>
@@ -12,11 +13,13 @@ import HanderNav from './app-hander-nav.vue'
         <i class="iconfont icon-search"></i>
         <input type="text" placeholder="搜一搜" />
       </div>
-      <div class="cart">
+      <!-- <div class="cart">
         <a class="curr" href="#">
           <i class="iconfont icon-cart"></i><em>2</em>
         </a>
-      </div>
+      </div> -->
+      <!-- 购物车 -->
+      <AppHeaderCart />
     </div>
   </header>
 </template>
