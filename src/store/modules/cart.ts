@@ -46,6 +46,15 @@ const useCartStore = defineStore('cart', {
             await request.post('/member/cart', data)
             // 重新获取购物车列表
             this.getCartList()
+        },
+        // 删除购物车
+        async deleteCart(skuIds: string[]){
+            await request.delete('/member/cart',{
+                data:{
+                    ids:skuIds
+                }
+            })
+            this.getCartList()
         }
     },
 });

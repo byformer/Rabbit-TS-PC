@@ -9,7 +9,8 @@ cart.getCartList()
     <a class="curr" href="javascript:;">
       <i class="iconfont icon-cart"></i><em>{{ cart.effectiveListCounts }}</em>
     </a>
-    <div class="layer">
+    <!-- 只在有商品的时候显示，非购物车页面显示 -->
+    <div class="layer" v-if="cart.effectiveList.length > 0 && $route.path !== '/cart'">
       <div class="list">
         <div class="item" v-for="item in cart.effectiveList" :key="item.skuId">
           <RouterLink to="">
@@ -28,7 +29,10 @@ cart.getCartList()
               <p class="count">x{{ item.count }}</p>
             </div>
           </RouterLink>
-          <i class="iconfont icon-close-new"></i>
+          <i class="iconfont icon-close-new"
+           @click="cart.deleteCart([item.skuId])"
+           >
+          </i>
         </div>
       </div>
       <div class="foot">
