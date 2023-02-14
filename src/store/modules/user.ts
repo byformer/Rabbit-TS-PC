@@ -24,6 +24,8 @@ export default defineStore('user', {
 
             // 往本地存
             setProfile(res.data.result)
+             const {cart} = useStore()
+             cart.mergeLocalCart ()
         },
         // 用户名验证码登录
         async sendMobileCode(mobile: string) {
@@ -43,6 +45,9 @@ export default defineStore('user', {
             })
             this.profile = res.data.result
             setProfile(res.data.result)
+
+            const {cart} = useStore()
+            cart.mergeLocalCart ()
         },
         // 提供绑定的action, 登录
         async qqBindLogin(openId: string, mobile: string, code: string) {
@@ -53,6 +58,9 @@ export default defineStore('user', {
             })
             this.profile = res.data.result
             setProfile(res.data.result)
+            
+            const {cart} = useStore()
+            cart.mergeLocalCart ()
         },
         // 手机号验证码登录
         async mobileLogin(mobile: string, code: string) {
@@ -64,6 +72,8 @@ export default defineStore('user', {
             this.profile = res.data.result
             // 往本地存
             setProfile(res.data.result)
+            const {cart} = useStore()
+            cart.mergeLocalCart ()
         },
         // 绑定qq的短信验证码
         async sendQQBindMsg(mobile: string) {

@@ -3,8 +3,14 @@ import request from '@/utils/request'
 import { ApiRes } from "@/types/data";
 import { CartItem } from '@/types/cart'
 import useStore from "..";
+type CheckObj ={
+    isEffective:boolean
+    nowPrice:number
+    stock:number
+}
 const useCartStore = defineStore('cart', {
 
+   
     // 状态
     state() {
         return {
@@ -68,7 +74,17 @@ const useCartStore = defineStore('cart', {
                 const res = await request.get<ApiRes<CartItem[]>>('/member/cart')
             this.list = res.data.result
             }else{
-                console.log('本地获取操作');
+                this.list.forEach(async cartItem =>{
+                    const skuId = cartItem.skuId
+                    const res = await request.get<ApiRes<CheckObj>>(`/goods/stock/${skuId}`)
+                    // 更新现价
+                    const cartItemInfo = res.data.result
+                    cartItem.nowPrice= (+cartItemInfo.nowPrice).toFixed(2)
+                    cartItem.stock = cartItemInfo.stock
+                    cartItem.isEffective = cartItemInfo.isEffective
+                })
+
+               
                 
             }
             
@@ -145,6 +161,20 @@ const useCartStore = defineStore('cart', {
         clearCart(){
             // 清除购物车
             this.list =[]
+        },
+        // 合并购物车
+        async mergeLocalCart(){
+            const data= this.list.map(item => {
+                return {
+                    skuId:item.skuId,
+                    selected:item.selected,
+                    count:item.count,
+                }
+            })
+            // 合并购物车
+            await request.post('member/cart/merge',data)
+            // 合并成功
+            this.getCartList()
         }
     },
 });
