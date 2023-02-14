@@ -22,7 +22,6 @@ export default function Confirm({ text, title,}: ParamsType) {
         reject('取消')
          // 关闭弹框
          render(null,div)
-        
     }
     // 创建虚拟dom
     const vNode = h(XtxConfirm, {
