@@ -31,6 +31,11 @@ const useCartStore = defineStore('cart', {
                 return sum + item.count * +item.nowPrice
             }, 0)
             return totalPrice.toFixed(2)
+        },
+         // 统计是否全部选中，设置是否全选
+         isAllSelected():boolean{
+            return this.effectiveList.every((item) => item.selected) && 
+            this.effectiveList.length !== 0
         }
     },
     // 方法
@@ -57,13 +62,20 @@ const useCartStore = defineStore('cart', {
             this.getCartList()
         },
         async updateCart(skuId: string,
-            data: { selected: boolean, count?: number }
+            data: { selected?: boolean, count?: number }
         ) {
             await request.put(`/member/cart/${skuId}`, data)
             //    重新获取购物车列表
             this.getCartList()
-
-        }
+        },
+        // 修改全选或者不全选
+        async updateCartAllSelected(isSelected:boolean){
+            await request.put('/member/cart/selected',{
+                selected:isSelected,
+            })
+            // 获取最新的购物车列表
+            this.getCartList()
+     }
     },
 });
 

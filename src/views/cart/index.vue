@@ -11,10 +11,13 @@ const delCart = async (skuId: string[]) => {
     })
 }
 
+// 处理状态的修改
 const handleChange = (skuId: string, flag: boolean) => {
-
     cart.updateCart(skuId, { selected: flag })
-
+}
+// 处理数量的修改
+const handleNumChange = (skuId:string,num:number)=>{
+    cart.updateCart(skuId,{count:num})
 }
 </script>
 
@@ -30,7 +33,8 @@ const handleChange = (skuId: string, flag: boolean) => {
                     <thead>
                         <tr>
                             <th width="120">
-                                <Checkbox>全选</Checkbox>
+                                <Checkbox :modelValue="cart.isAllSelected"
+                                @update:modelValue="cart.updateCartAllSelected($event)">全选</Checkbox>
                             </th>
                             <th width="400">商品信息</th>
                             <th width="220">单价</th>
@@ -62,7 +66,8 @@ const handleChange = (skuId: string, flag: boolean) => {
                                 <p>&yen;{{ item.nowPrice }}</p>
                             </td>
                             <td class="tc">
-                                <Numbox :hasLabel="false" :modelValue="item.count" />
+                                <Numbox :hasLabel="false" :modelValue="item.count"
+                                @update:modelValue="handleNumChange(item.skuId,$event)" />
                             </td>
                             <td class="tc">
                                 <p class="f16 red">&yen;{{ (+item.nowPrice * item.count).toFixed(2) }}</p>
