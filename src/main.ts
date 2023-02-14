@@ -18,7 +18,9 @@ import Numbox from './components/numbox/index.vue'
 import Button from './components/button/index.vue'
 import CheckBox from './components/checkbox/index.vue'
 import Message from './components/message/message.vue'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
 const app = createApp(App)
 // 注册全局组件
 app.component('Skeleton', Skeleton)

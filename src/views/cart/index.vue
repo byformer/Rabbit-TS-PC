@@ -97,8 +97,8 @@ const handleNumChange = (skuId:string,num:number)=>{
             <div class="action">
                 <div class="batch"></div>
                 <div class="total">
-                    共 7 件有效商品，已选择 2 件，商品合计：
-                    <span class="red">¥400</span>
+                    共 {{ cart.effectiveListCounts }} 件有效商品，已选择 {{ cart.selectedListCounts }} 件，商品合计：
+                    <span class="red">¥{{ cart.selectedListPrice }}</span>
                     <Button type="primary">下单结算</Button>
                 </div>
             </div>

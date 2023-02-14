@@ -14,8 +14,8 @@ const logoutFn = ()=>{
         FnMessage({
         type:'success',
         text:'退出登录成功'
-    })
-    
+      })
+    const {cart} = useStore()
     })
 }
 //  const logoutFn = ()=>{

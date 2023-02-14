@@ -2,6 +2,7 @@ import request from '@/utils/request'
 import { defineStore } from 'pinia'
 import { Profile } from '@/types/user'
 import { ApiRes } from '@/types/data'
+import useStore from '@/store';
 import { getProfile, removeProfile, setProfile } from '@/utils/storage'
 
 export default defineStore('user', {
@@ -72,7 +73,7 @@ export default defineStore('user', {
                 }
             })
         },
-    
+
         // 无账号无绑定，获取验证码
         async sendQQPathMsg(mobile: string) {
             await request.get('/register/code', {
@@ -95,6 +96,8 @@ export default defineStore('user', {
         logout() {
             this.profile = {} as Profile
             removeProfile()
+            const { cart } = useStore()
+            cart.clearCart()
         }
     }
 })

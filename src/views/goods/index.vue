@@ -10,6 +10,7 @@ import GoodsSku from './components/goods-sku.vue'
 import GoodsDetail from './components/goods-detail.vue';
 import GoodsHot from './components/goods-hot.vue'
 import FnMessage from '@/components/message';
+import { CartItem } from '@/types/cart'
 const { goods,cart } = useStore()
 const { info } = storeToRefs(goods)
 const route = useRoute()
@@ -38,7 +39,7 @@ const changeSku = (skuId: string) => {
   }
 }
 
-const count = ref(5)
+const count = ref(1)
 
 const addCart = async () => {
   // 判断 是否选中了某个sku
@@ -50,8 +51,18 @@ const addCart = async () => {
     return
   }
    await cart.addCart({
-      skuId:currentSkuId.value,
-      count:count.value
+          // 本地添加
+    id: info.value.id,
+    name: info.value.name,
+    picture: info.value.mainPictures[0],
+    price: info.value.price,
+    count: count.value,
+    skuId: currentSkuId.value,
+    attrsText: '',
+    selected: true,
+    nowPrice: info.value.price,
+    stock: info.value.inventory,
+    isEffective: true,
     })
    FnMessage({
     type:'success',
