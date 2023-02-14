@@ -6,7 +6,7 @@ cart.getCartList()
 
 <template>
   <div class="cart">
-    <a class="curr" href="javascript:;">
+    <a @click="$router.push('/cart')" class="curr" href="javascript:;">
       <i class="iconfont icon-cart"></i><em>{{ cart.effectiveListCounts }}</em>
     </a>
     <!-- 只在有商品的时候显示，非购物车页面显示 -->
@@ -40,7 +40,7 @@ cart.getCartList()
           <p>共 {{ cart.effectiveListCounts }} 件商品</p>
           <p>&yen;{{ cart.effectiveListPrice }}</p>
         </div>
-        <Button type="plain">去购物车结算</Button>
+        <Button @click="$router.push('/cart')" type="plain">去购物车结算</Button>
       </div>
     </div>
   </div>

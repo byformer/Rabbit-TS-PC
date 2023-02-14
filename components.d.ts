@@ -12,6 +12,7 @@ declare module '@vue/runtime-core' {
     Carousel: typeof import('./src/components/carousel/index.vue')['default']
     Checkbox: typeof import('./src/components/checkbox/index.vue')['default']
     City: typeof import('./src/components/city/index.vue')['default']
+    Confirm: typeof import('./src/components/confirm/confirm.vue')['default']
     Item: typeof import('./src/components/bread/item.vue')['default']
     Message: typeof import('./src/components/message/message.vue')['default']
     More: typeof import('./src/components/more/index.vue')['default']

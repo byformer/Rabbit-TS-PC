@@ -2,17 +2,30 @@
 import FnMessage from '@/components/message';
 import router from '@/router';
 import useStore from '@/store';
-
+import Confirm from '@/components/confirm';
  const { user } = useStore()
-
- const logoutFn = ()=>{
-    user.logout()
-    router.push('/login')
-    FnMessage({
+const logoutFn = ()=>{
+    Confirm({
+        title:'温馨提示',
+        text:'确定退出吗？'
+    }).then(()=>{
+        user.logout()
+        router.push('/login')
+        FnMessage({
         type:'success',
         text:'退出登录成功'
     })
- }
+    
+    })
+}
+//  const logoutFn = ()=>{
+//     user.logout()
+//     router.push('/login')
+//     FnMessage({
+//         type:'success',
+//         text:'退出登录成功'
+//     })
+//  }
 </script>
 
 <template>
