@@ -22,39 +22,47 @@ const useCartStore = defineStore('cart', {
         effectiveListCounts(): number {
             const total = this.effectiveList.reduce((sum, item, index) => {
                 return sum + item.count
-            },0)
+            }, 0)
             return total
         },
         // 有效商品的总价格
-        effectiveListPrice(): string{
-            const totalPrice = this.effectiveList.reduce((sum,item,index)=>{
+        effectiveListPrice(): string {
+            const totalPrice = this.effectiveList.reduce((sum, item, index) => {
                 return sum + item.count * +item.nowPrice
-            },0)
+            }, 0)
             return totalPrice.toFixed(2)
         }
     },
     // 方法
     actions: {
-       
+
         // 获取购物车
         async getCartList() {
             const res = await request.get<ApiRes<CartItem[]>>('/member/cart')
             this.list = res.data.result
         },
-         // 加入购物车
-         async addCart(data: { skuId: string, count: number }) {
+        // 加入购物车
+        async addCart(data: { skuId: string, count: number }) {
             await request.post('/member/cart', data)
             // 重新获取购物车列表
             this.getCartList()
         },
         // 删除购物车
-        async deleteCart(skuIds: string[]){
-            await request.delete('/member/cart',{
-                data:{
-                    ids:skuIds
+        async deleteCart(skuIds: string[]) {
+            await request.delete('/member/cart', {
+                data: {
+                    ids: skuIds
                 }
             })
             this.getCartList()
+        },
+        async updateCart(skuId: string,
+            data: { selected: boolean, count?: number }
+        ) {
+            await request.put(`/member/cart/${skuId}`, data)
+            //    重新获取购物车列表
+            this.getCartList()
+
         }
     },
 });

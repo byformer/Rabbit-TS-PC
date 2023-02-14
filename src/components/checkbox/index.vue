@@ -8,10 +8,12 @@ const props = defineProps({
 })
 const emit = defineEmits<{
   (e:'update:modelValue',value:boolean): void
+  (e:'change',value:boolean): void
 }>()
 
 const change = ()=>{
   emit('update:modelValue',!props.modelValue)
+  emit('change',!props.modelValue)
 }
 </script>
 

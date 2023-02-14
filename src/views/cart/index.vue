@@ -1,7 +1,7 @@
 <script setup lang="ts" name="Cart">
 import useStore from '@/store';
 import FnMessage from '@/components/message'
-import Confirm from '@/components/confirm';
+
 const { cart } = useStore()
 const delCart = async (skuId: string[]) => {
     await cart.deleteCart(skuId)
@@ -9,6 +9,12 @@ const delCart = async (skuId: string[]) => {
         type: 'success',
         text: '删除成功'
     })
+}
+
+const handleChange = (skuId: string, flag: boolean) => {
+
+    cart.updateCart(skuId, { selected: flag })
+
 }
 </script>
 
@@ -24,7 +30,7 @@ const delCart = async (skuId: string[]) => {
                     <thead>
                         <tr>
                             <th width="120">
-                                <XtxCheckbox>全选</XtxCheckbox>
+                                <Checkbox>全选</Checkbox>
                             </th>
                             <th width="400">商品信息</th>
                             <th width="220">单价</th>
@@ -37,7 +43,7 @@ const delCart = async (skuId: string[]) => {
                     <tbody>
                         <tr v-for="item in cart.effectiveList" :key="item.skuId">
                             <td>
-                                <Checkbox :modelValue="item.selected" />
+                                <Checkbox @change="handleChange(item.skuId, $event)" :modelValue="item.selected" />
                             </td>
                             <td>
                                 <div class="goods">
@@ -74,7 +80,7 @@ const delCart = async (skuId: string[]) => {
                                     <img src="@/assets/images/none.png" alt="" />
                                     <p>购物车内暂时没有商品</p>
                                     <div class="btn" style="margin: 20px">
-                                        <XtxButton type="primary"> 继续逛逛 </XtxButton>
+                                        <Button type="primary"> 继续逛逛 </Button>
                                     </div>
                                 </div>
                             </td>
