@@ -35,7 +35,7 @@ onMounted(async () => {
           支付金额：<span>¥{{ order?.payMoney?.toFixed(2)}}元</span>
         </p>
         <div class="btn">
-          <Button type="primary" style="margin-right: 20px">
+          <Button type="primary" @click="$router.push('/member/order')" style="margin-right: 20px">
             查看订单
           </Button>
           <Button type="gray" @click="$router.push('/')">进入首页</Button>
