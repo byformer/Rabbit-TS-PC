@@ -2,7 +2,7 @@
 import { ref,watch } from 'vue';
 import { useRoute } from 'vue-router';
 import dayjs from 'dayjs'
-import request from '@/utils/request'
+import request,{baseURL} from '@/utils/request'
 import useCountDown from '@/utils/hooks'
 import { ApiRes } from '@/types/data';
 import {OrderPayInfo} from '@/types/order'
@@ -38,6 +38,10 @@ getOrderList()
 const formatTime = (time:number) =>{
   return dayjs.unix(time).format('mm分ss秒')
 }
+//  回跳地址
+const redirectUrl = encodeURIComponent('http://www.corho.com:8080/#/pay/callback')
+// 支付链接
+const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${redirectUrl}`
 </script>
 <template>
   <div class="xtx-pay-page">
@@ -65,7 +69,7 @@ const formatTime = (time:number) =>{
         <div class="item">
           <p>支付平台</p>
           <a class="btn wx" href="javascript:;"></a>
-          <a class="btn alipay" href="javascript:;"></a>
+          <a class="btn alipay" :href=" payUrl"></a>
         </div>
         <div class="item">
           <p>支付方式</p>

@@ -21,6 +21,7 @@ const router = createRouter({
                 { path: '/cart', component: () => import('@/views/cart/index.vue') },
                 { path: '/member/checkout', component: () => import('@/views/member/pay/checkout.vue') },
                 { path: '/member/pay', component: () => import('@/views/member/pay/index.vue') },
+                { path: '/pay/callback', component: () => import('@/views/member/pay/callback.vue') },
 
             ]
         },
@@ -32,23 +33,23 @@ const router = createRouter({
 })
 
 // 配置路由前置守卫
-router.beforeEach((to,from,next) =>{
+router.beforeEach((to, from, next) => {
     // 判断用户是否登录
-    const {cart} = useStore()
-    if(cart.isLogin){
+    const { cart } = useStore()
+    if (cart.isLogin) {
         // 如果用户是登录状态，直接放行
         next()
-    }else{
+    } else {
         // 目前是游客状态,需要看看你想去哪儿
-        if(to.path.includes('/member')){
+        if (to.path.includes('/member')) {
             // 这个不是你随便能访问的
             next({
-                path:'/login',
-                query:{
-                    redirectUrl:to.fullPath
+                path: '/login',
+                query: {
+                    redirectUrl: to.fullPath
                 }
             })
-        }else{
+        } else {
             next()
         }
 

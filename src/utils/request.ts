@@ -4,9 +4,11 @@ import axios, { AxiosError } from 'axios'
 
 // 备用接口地址: http://pcapi-xiaotuxian-front-devtest.itheima.net/
 // http://pcapi-xiaotuxian-front.itheima.net/
+ export const baseURL = 'http://pcapi-xiaotuxian-front.itheima.net/'
 const instance = axios.create({
+
   // 请求基地址
-  baseURL: 'http://pcapi-xiaotuxian-front.itheima.net/',
+  baseURL: baseURL,
   // 超时时间 
   timeout: 5000
 })
