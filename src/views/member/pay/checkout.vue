@@ -28,7 +28,6 @@ const submitCheckout = async () => {
   // 🔔重新获取购物车列表
   cart.getCartList()
   // 跳转到支付页面
-
   router.replace('/member/pay?id=' + res.data.result.id)
 }
 </script>

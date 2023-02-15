@@ -20,6 +20,7 @@ const router = createRouter({
                 { path: '/goods/:id', component: () => import('@/views/goods/index.vue') },
                 { path: '/cart', component: () => import('@/views/cart/index.vue') },
                 { path: '/member/checkout', component: () => import('@/views/member/pay/checkout.vue') },
+                { path: '/member/pay', component: () => import('@/views/member/pay/index.vue') },
 
             ]
         },
