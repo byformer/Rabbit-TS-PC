@@ -1,42 +1,37 @@
 <script lang="ts" setup name="LoginForm">
 import FnMessage from '@/components/message/';
 import useStore from '@/store';
-import { ref,watch } from 'vue'
-import { useRouter } from 'vue-router';
+import { ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router';
 import { useField, useForm } from 'vee-validate'
 import { accountRule, codeRule, isAgreeRule, mobileRule, passwordRule } from '@/utils/validate';
 const type = ref<'account' | 'mobile'>('account')
 const { user } = useStore()
 const router = useRouter()
-const form = ref({
-  account: '',
-  password: '',
-  isAgree: false,
-})
-
+const route = useRoute()
 // 添加表单验证
-const { validate,resetForm } = useForm({
+const { validate, resetForm } = useForm({
   // 设置初始值
-  initialValues:{
-    mobile:'13012345678',
-    code:'123456',
-    account:'cdshi0004',
-    password:'123456',
-    isAgree:true
+  initialValues: {
+    mobile: '13012345678',
+    code: '123456',
+    account: 'cdshi0004',
+    password: '123456',
+    isAgree: true
   },
   validationSchema: {
-    account:accountRule,
-    password:passwordRule,
-    isAgree:isAgreeRule,
-    mobile:mobileRule,
-    code:codeRule
+    account: accountRule,
+    password: passwordRule,
+    isAgree: isAgreeRule,
+    mobile: mobileRule,
+    code: codeRule
   }
 })
 
 const { value: account, errorMessage: accountError } = useField<string>('account')
 const { value: password, errorMessage: passwordError } = useField<string>('password')
 const { value: isAgree, errorMessage: isAgreeError } = useField<boolean>('isAgree')
-const { value: mobile, errorMessage: mobileError,validate:validateMobile } = useField<string>('mobile')
+const { value: mobile, errorMessage: mobileError, validate: validateMobile } = useField<string>('mobile')
 const { value: code, errorMessage: codeError } = useField<string>('code')
 
 // 基本登录逻辑
@@ -44,58 +39,60 @@ const login = async () => {
   // 登录前的校验
   const res = await validate()
   // 没有校验通过则返回
-  if(type.value === 'account'){
+  if (type.value === 'account') {
     // 账号登录 如果账号或密码或同意许可，任何一个，有效验错误，就return
-    if(res.errors.account || res.errors.password || res.errors.isAgree) return
+    if (res.errors.account || res.errors.password || res.errors.isAgree) return
     await user.login(account.value, password.value)
-  }else{
+  } else {
     // 手机号登录
-    if(res.errors.mobile || res.errors.code || res.errors.isAgree) return
+    if (res.errors.mobile || res.errors.code || res.errors.isAgree) return
     await user.mobileLogin(mobile.value, code.value)
   }
- 
-    
+  //  尝试获取地址栏的查询参数
+  const redirectUrl = (route.query.redirectUrl as string) || '/'
 
-    FnMessage({
-      type: 'success',
-      text: '登录成功',
-    })
-    router.push('/')
+
+  FnMessage({
+    type: 'success',
+    text: '登录成功',
+  })
+  router.push(redirectUrl)
 
 
 }
 
 // 处理切换重置
-watch(type,()=>{
+watch(type, () => {
   // 一旦触发，说明切换了，直接重置
   resetForm()
 })
 
 // 处理发送验证码
 const mobileRef = ref<HTMLInputElement | null>(null)
-   const time = ref(0) // 倒计时的秒数
-   let timeId = -1
-const send = async ()=>{
-  if(time.value >0) return
+const time = ref(0) // 倒计时的秒数
+let timeId = -1
+const send = async () => {
+  if (time.value > 0) return
   // 手机号通过效验发送验证码，效验结果为true，才发送验证码
   const res = await validateMobile()
-  if(!res.valid){
+  if (!res.valid) {
     mobileRef.value?.focus()
     return
   }
 
-   await user.sendMobileCode(mobile.value)
-   FnMessage({
-    type:'success',
-    text:'获取验证码成功'
-   })
-   time.value = 60
-   timeId =window.setInterval(()=>{
+  await user.sendMobileCode(mobile.value)
+
+  FnMessage({
+    type: 'success',
+    text: '获取验证码成功'
+  })
+  time.value = 60
+  timeId = window.setInterval(() => {
     time.value--
-    if(time.value<= 0){
+    if (time.value <= 0) {
       clearInterval(timeId)
     }
-   },1000)
+  }, 1000)
 
 }
 </script>
@@ -146,7 +143,7 @@ const send = async ()=>{
             <i class="iconfont icon-code"></i>
             <input v-model="code" type="text" placeholder="请输入验证码" />
             <span class="code" @click="send">
-            {{ time === 0 ? '发送验证码' : `${time}s后发送` }}
+              {{ time === 0 ? '发送验证码' : `${time}s后发送` }}
             </span>
           </div>
           <div class="error" v-if="codeError">
@@ -171,13 +168,8 @@ const send = async ()=>{
     </div>
     <div class="action">
       <a
-        href="https://graph.qq.com/oauth2.0/authorize?client_id=100556005&response_type=token&scope=all&redirect_uri=http%3A%2F%2Fwww.corho.com%3A8080%2F%23%2Flogin%2Fcallback"
-      >
-        <img
-          src="https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_7.png"
-          alt="QQ登录"
-          border="0"
-        />
+        href="https://graph.qq.com/oauth2.0/authorize?client_id=100556005&response_type=token&scope=all&redirect_uri=http%3A%2F%2Fwww.corho.com%3A8080%2F%23%2Flogin%2Fcallback">
+        <img src="https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_7.png" alt="QQ登录" border="0" />
       </a>
       <div class="url">
         <a href="javascript:;">忘记密码</a>

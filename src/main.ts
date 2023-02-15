@@ -17,7 +17,9 @@ import City from './components/city/index.vue'
 import Numbox from './components/numbox/index.vue'
 import Button from './components/button/index.vue'
 import CheckBox from './components/checkbox/index.vue'
+import Dialog from './components/dialog/index.vue'
 import Message from './components/message/message.vue'
+import Switch from './components/switch/index.vue'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
@@ -33,6 +35,8 @@ app.component('Numbox',Numbox)
 app.component('Button',Button)
 app.component('CheckBox',CheckBox)
 app.component('Message',Message)
+app.component('Dialog',Dialog)
+app.component('Switch',Switch)
 
 // 自定义懒加载组件
 app.directive('lazy', {

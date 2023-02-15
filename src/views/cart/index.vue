@@ -1,6 +1,7 @@
 <script setup lang="ts" name="Cart">
 import useStore from '@/store';
 import FnMessage from '@/components/message'
+import { useRouter } from 'vue-router';
 
 const { cart } = useStore()
 const delCart = async (skuId: string[]) => {
@@ -18,6 +19,19 @@ const handleChange = (skuId: string, flag: boolean) => {
 // 处理数量的修改
 const handleNumChange = (skuId:string,num:number)=>{
     cart.updateCart(skuId,{count:num})
+}
+
+// 去结算
+const router = useRouter()
+const goCheck = ()=>{
+    if(cart.selectedListCounts=== 0){
+        FnMessage({
+        type: 'warning',
+        text: '请至少选择一件商品'
+    })
+    return
+    }
+    router.push('/member/checkout')
 }
 </script>
 
@@ -85,7 +99,7 @@ const handleNumChange = (skuId:string,num:number)=>{
                                     <img src="@/assets/images/none.png" alt="" />
                                     <p>购物车内暂时没有商品</p>
                                     <div class="btn" style="margin: 20px">
-                                        <Button type="primary"> 继续逛逛 </Button>
+                                        <Button type="primary" @click="$router.push('/')"> 继续逛逛 </Button>
                                     </div>
                                 </div>
                             </td>
@@ -99,7 +113,7 @@ const handleNumChange = (skuId:string,num:number)=>{
                 <div class="total">
                     共 {{ cart.effectiveListCounts }} 件有效商品，已选择 {{ cart.selectedListCounts }} 件，商品合计：
                     <span class="red">¥{{ cart.selectedListPrice }}</span>
-                    <Button type="primary">下单结算</Button>
+                    <Button type="primary" @click="goCheck">下单结算</Button>
                 </div>
             </div>
         </div>

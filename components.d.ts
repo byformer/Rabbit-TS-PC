@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     Checkbox: typeof import('./src/components/checkbox/index.vue')['default']
     City: typeof import('./src/components/city/index.vue')['default']
     Confirm: typeof import('./src/components/confirm/confirm.vue')['default']
+    Dialog: typeof import('./src/components/dialog/index.vue')['default']
     Item: typeof import('./src/components/bread/item.vue')['default']
     Message: typeof import('./src/components/message/message.vue')['default']
     More: typeof import('./src/components/more/index.vue')['default']
@@ -20,5 +21,6 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Skeleton: typeof import('./src/components/skeleton/index.vue')['default']
+    Switch: typeof import('./src/components/switch/index.vue')['default']
   }
 }

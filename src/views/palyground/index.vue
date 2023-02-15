@@ -1,20 +1,32 @@
 <script setup lang="ts">
-import Confirm from '@/components/confirm';
-const logout = ()=>{
-    Confirm({
-        text:'你确定退出嘛？？', 
-        title:'温馨提示'
-    }).then(()=>{
-        console.log('成功');
-        
-    }).catch(()=>{
-        console.log('失败');
-        
-    })
-}
+import { ref } from 'vue';
+
+const dialogVisible = ref(false)
 </script>
 <template>
-    <button @click="logout">退出</button>
+    <button @click="dialogVisible = true">按钮</button>
+    <Teleport to="body">
+
+
+        <Dialog title="hello" v-model:visible="dialogVisible">
+            <ul>
+                <li>11111</li>
+                <li>11111</li>
+                <li>11111</li>
+                <li>11111</li>
+                <li>11111</li>
+                <li>11111</li>
+                <li>11111</li>
+                <li>11111</li>
+                <li>11111</li>
+            </ul>
+            <template #footer>
+                <Button type="gray" style="margin-right:20px">否</Button>
+                <Button type="primary">是</Button>
+            </template>
+        </Dialog>
+    </Teleport>
 </template>
 <style scoped>
+
 </style>

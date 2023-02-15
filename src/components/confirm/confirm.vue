@@ -30,7 +30,7 @@ onMounted(()=>{
             <div class="wrapper">
                 <div class="header">
                     <h3>{{ title }}</h3>
-                    <a href="JavaScript:;" class="iconfont icon-close-new"></a>
+                    <a @click="cancelConfirm" href="JavaScript:;" class="iconfont icon-close-new"></a>
                 </div>
                 <div class="body">
                     <i class="iconfont icon-warning"></i>
