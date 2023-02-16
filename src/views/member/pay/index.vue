@@ -3,7 +3,7 @@ import { ref,watch } from 'vue';
 import { useRoute } from 'vue-router';
 import dayjs from 'dayjs'
 import request,{baseURL} from '@/utils/request'
-import useCountDown from '@/utils/hooks'
+import {useCountDown} from '@/utils/hooks'
 import { ApiRes } from '@/types/data';
 import {OrderPayInfo} from '@/types/order'
 import router from '@/router';
