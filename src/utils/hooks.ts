@@ -15,7 +15,7 @@ export function useLazyData(apiFn:()=>void) {
     return target
 }
 
-export default function useCountDown(count: number = 60) {
+export function useCountDown(count: number = 60) {
     const time = ref(0) // 倒计时的秒数
     const { pause, resume } = useIntervalFn(
       () => {

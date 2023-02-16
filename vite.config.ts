@@ -2,6 +2,7 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import vueJsx from '@vitejs/plugin-vue-jsx'
 // name插件
 import vueSetupExtend from 'vite-plugin-vue-setup-extend'
 
@@ -12,7 +13,8 @@ function pathResolve(dir: string): string {
 };
 export default defineConfig({
   // 添加name插件
-  plugins: [vue(),vueSetupExtend(),
+  plugins: [
+    vue(),vueSetupExtend(),vueJsx(),
     Components({
       extensions: ['vue'],
       include: [/\.vue$/, /\.vue\?vue/],

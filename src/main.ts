@@ -19,6 +19,8 @@ import Button from './components/button/index.vue'
 import CheckBox from './components/checkbox/index.vue'
 import Dialog from './components/dialog/index.vue'
 import Message from './components/message/message.vue'
+import XtxTabs from './components/tabs/index.vue'
+import XtxTabsPane from './components/tabs/pane.vue'
 import Switch from './components/switch/index.vue'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 const pinia = createPinia()
@@ -37,6 +39,8 @@ app.component('CheckBox',CheckBox)
 app.component('Message',Message)
 app.component('Dialog',Dialog)
 app.component('Switch',Switch)
+app.component('XtxTabs',XtxTabs)
+app.component('XtxTabsPane',XtxTabsPane)
 
 // 自定义懒加载组件
 app.directive('lazy', {

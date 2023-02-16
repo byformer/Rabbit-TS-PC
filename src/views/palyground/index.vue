@@ -1,32 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-
-const dialogVisible = ref(false)
 </script>
 <template>
-    <button @click="dialogVisible = true">按钮</button>
-    <Teleport to="body">
+    <XtxTabs>
 
-
-        <Dialog title="hello" v-model:visible="dialogVisible">
-            <ul>
-                <li>11111</li>
-                <li>11111</li>
-                <li>11111</li>
-                <li>11111</li>
-                <li>11111</li>
-                <li>11111</li>
-                <li>11111</li>
-                <li>11111</li>
-                <li>11111</li>
-            </ul>
-            <template #footer>
-                <Button type="gray" style="margin-right:20px">否</Button>
-                <Button type="primary">是</Button>
-            </template>
-        </Dialog>
-    </Teleport>
+        <XtxTabsPane label="用户管理" name="first">
+            用户管理
+        </XtxTabsPane>
+        <XtxTabsPane label="配置管理" name="second"> 
+            用户管理
+        </XtxTabsPane>
+        <XtxTabsPane label="角色管理" name="third"> 
+            用户管理
+        </XtxTabsPane>
+</XtxTabs>
 </template>
-<style scoped>
-
-</style>
+<style scoped></style>

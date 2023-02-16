@@ -18,9 +18,11 @@ declare module '@vue/runtime-core' {
     Message: typeof import('./src/components/message/message.vue')['default']
     More: typeof import('./src/components/more/index.vue')['default']
     Numbox: typeof import('./src/components/numbox/index.vue')['default']
+    Pane: typeof import('./src/components/tabs/pane.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Skeleton: typeof import('./src/components/skeleton/index.vue')['default']
     Switch: typeof import('./src/components/switch/index.vue')['default']
+    Tabs: typeof import('./src/components/tabs/index.vue')['default']
   }
 }

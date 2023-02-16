@@ -1,18 +1,29 @@
 <script setup lang="ts">
-//
+import useStore from '@/store'
+import { storeToRefs } from 'pinia'
+import defaultImg from '@/assets/images/200.png'
+
+const { user } = useStore()
+// 解构 profile 并保持响应式
+const { profile } = storeToRefs(user)
+// 图片加载失败会触发 error 事件，加载失败使用默认占位图
+const imgError = () => {
+  profile.value.avatar = defaultImg
+}
 </script>
 
 <template>
   <!-- 概览 -->
   <div class="home-overview">
     <!-- 用户信息 -->
+    <!-- 用户信息 -->
     <div class="user-meta">
       <div class="avatar">
-        <img
-          src="http://zhoushugang.gitee.io/erabbit-client-pc-static/uploads/avatar_1.png"
-        />
+        <img :src="profile.avatar" @error="imgError" />
       </div>
-      <h4>徐菲菲</h4>
+      <h4>
+        {{ profile.nickname || profile.account || profile.mobile }}
+      </h4>
     </div>
     <div class="item">
       <a href="javascript:;">
